@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#111111" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="RUN" />
+  <title>RUN</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="app-shell">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">PERSONAL RUNNING</p>
+        <h1>RUN</h1>
+      </div>
+      <button id="historyButton" class="icon-button" aria-label="履歴">履歴</button>
+    </header>
+
+    <section class="card setup-card" id="setupCard">
+      <h2>ランニング設定</h2>
+
+      <div class="segmented" role="tablist" aria-label="ランニングモード">
+        <button class="segment active" data-mode="free">フリー</button>
+        <button class="segment" data-mode="distance">距離</button>
+        <button class="segment" data-mode="time">時間</button>
+      </div>
+
+      <div id="distanceSetting" class="setting-row hidden">
+        <label for="distanceTarget">目標距離</label>
+        <div class="stepper">
+          <button id="distanceMinus" class="step-button">−</button>
+          <div class="target-value">
+            <strong id="distanceValue">5.0</strong>
+            <span>km</span>
+          </div>
+          <button id="distancePlus" class="step-button">＋</button>
+        </div>
+        <p class="helper">0.1 km単位で設定</p>
+      </div>
+
+      <div id="timeSetting" class="setting-row hidden">
+        <label for="timeTarget">目標時間</label>
+        <div class="stepper">
+          <button id="timeMinus" class="step-button">−</button>
+          <div class="target-value">
+            <strong id="timeValue">30</strong>
+            <span>分</span>
+          </div>
+          <button id="timePlus" class="step-button">＋</button>
+        </div>
+      </div>
+
+      <button id="startButton" class="primary-button">START</button>
+      <p id="permissionHint" class="note">
+        初回は位置情報の利用許可を求められます。
+      </p>
+    </section>
+
+    <section class="run-panel hidden" id="runPanel">
+      <div class="status-row">
+        <span id="runStatus" class="status-pill">GPS準備中</span>
+        <span id="accuracyText" class="accuracy">精度 -- m</span>
+      </div>
+
+      <div class="hero-metric">
+        <span class="metric-label">距離</span>
+        <div>
+          <strong id="distanceDisplay">0.00</strong>
+          <span class="unit">km</span>
+        </div>
+      </div>
+
+      <div class="timer" id="timeDisplay">00:00:00</div>
+
+      <div class="metric-grid">
+        <article class="metric-card">
+          <span>現在ペース</span>
+          <strong id="currentPaceDisplay">--'--"</strong>
+          <small>/km</small>
+        </article>
+        <article class="metric-card">
+          <span>平均ペース</span>
+          <strong id="averagePaceDisplay">--'--"</strong>
+          <small>/km</small>
+        </article>
+      </div>
+
+      <div class="progress-card" id="progressCard">
+        <div class="progress-heading">
+          <span id="progressLabel">フリーラン</span>
+          <strong id="progressText">--</strong>
+        </div>
+        <div class="progress-track">
+          <div id="progressBar" class="progress-bar"></div>
+        </div>
+      </div>
+
+      <div class="run-actions">
+        <button id="pauseButton" class="secondary-button">一時停止</button>
+        <button id="stopButton" class="danger-button">終了</button>
+      </div>
+    </section>
+
+    <section class="summary-grid">
+      <article class="summary-card">
+        <span>今週</span>
+        <strong id="weekDistance">0.0 km</strong>
+      </article>
+      <article class="summary-card">
+        <span>今月</span>
+        <strong id="monthDistance">0.0 km</strong>
+      </article>
+    </section>
+  </main>
+
+  <dialog id="resultDialog" class="dialog">
+    <div class="dialog-content">
+      <p class="eyebrow">RUN COMPLETE</p>
+      <h2>ランニング結果</h2>
+      <div class="result-list">
+        <div><span>距離</span><strong id="resultDistance">0.00 km</strong></div>
+        <div><span>時間</span><strong id="resultTime">00:00:00</strong></div>
+        <div><span>平均ペース</span><strong id="resultPace">--'--"/km</strong></div>
+      </div>
+      <button id="closeResultButton" class="primary-button">保存して閉じる</button>
+    </div>
+  </dialog>
+
+  <dialog id="historyDialog" class="dialog">
+    <div class="dialog-content">
+      <div class="dialog-header">
+        <div>
+          <p class="eyebrow">HISTORY</p>
+          <h2>ランニング履歴</h2>
+        </div>
+        <button id="closeHistoryButton" class="icon-button">閉じる</button>
+      </div>
+      <div id="historyList" class="history-list"></div>
+      <button id="clearHistoryButton" class="ghost-button">履歴をすべて削除</button>
+    </div>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>
